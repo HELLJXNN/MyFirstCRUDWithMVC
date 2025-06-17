@@ -25,11 +25,15 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <li class="nav-item"> 
+                            
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Users</a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
-    </header>
+    </header>   
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -38,7 +42,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2025 - MyFirstCRUDWithMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            Jenn CRUD - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

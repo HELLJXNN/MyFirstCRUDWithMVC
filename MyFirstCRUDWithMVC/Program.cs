@@ -1,3 +1,5 @@
+//App start here
+
 using Microsoft.EntityFrameworkCore;
 using MyFirstCRUDWithMVC.Models;
 
