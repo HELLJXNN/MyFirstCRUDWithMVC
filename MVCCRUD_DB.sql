@@ -1,0 +1,8 @@
+CREATE DATABASE MVCCRUD
+
+CREATE TABLE Users(
+    Id INT IDENTITY (1,1) PRIMARY KEY,
+    UserName VARCHAR(50),
+    UserDate DATE,
+    UserPassword VARCHAR(50)
+)
