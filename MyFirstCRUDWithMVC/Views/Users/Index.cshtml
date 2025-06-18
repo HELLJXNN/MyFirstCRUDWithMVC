@@ -1,47 +1,106 @@
 ﻿@model IEnumerable<MyFirstCRUDWithMVC.Models.User>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "User List";
 }
 
-<h1>Index</h1>
+<div class="container mt-4">
+    <h1 class="mb-4 text-center">User List</h1>
 
-<p>
-    <a asp-action="Create">Create New User</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.UserName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserPassword)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserPassword)
-            </td>
-            <td>
-                <a asp-action="Edit" class="btn btn-warning" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" class="btn btn-primary" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a asp-action="Create" class="btn btn-primary shadow-sm">
+            <i class="bi bi-plus-circle me-2"></i>Create New User
+        </a>
+
+        <form asp-controller="Users" asp-action="Index" method="get" class="d-flex">
+            <div class="input-group">
+                <input type="text" name="search" class="form-control" placeholder="Search users..." value="@ViewBag.SearchTerm" />
+                <button type="submit" class="btn btn-outline-secondary">
+                    <i class="bi bi-search"></i> Search
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Registered Users</h5>
+        </div>
+        <div class="card-body p-0">
+            @if (Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th scope="col">
+                                    @Html.DisplayNameFor(model => model.UserName)
+                                </th>
+                                <th scope="col">
+                                    @Html.DisplayNameFor(model => model.UserDate)
+                                </th>
+                                <th scope="col">
+                                    @Html.DisplayNameFor(model => model.UserPassword)
+                                </th>
+                                <th scope="col" class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserDate)
+                                    </td>
+                                    <td>
+                                        @* Display asterisks for the password *@
+                                        @{
+                                            if (!string.IsNullOrEmpty(item.UserPassword))
+                                            {
+                                                for (int i = 0; i < item.UserPassword.Length; i++)
+                                                {
+                                                    @Html.Raw("*")
+                                                }
+                                            }
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="btn-group" role="group" aria-label="User actions">
+                                            <a asp-action="Edit" class="btn btn-sm btn-outline-warning" asp-route-id="@item.Id" title="Edit">
+                                                <i class="bi bi-pencil-square"></i> Edit
+                                            </a>
+                                            <a asp-action="Details" class="btn btn-sm btn-outline-info" asp-route-id="@item.Id" title="Details">
+                                                <i class="bi bi-info-circle"></i> Details
+                                            </a>
+                                            <a asp-action="Delete" class="btn btn-sm btn-outline-danger" asp-route-id="@item.Id" title="Delete">
+                                                <i class="bi bi-trash"></i> Delete
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info m-3" role="alert">
+                    No users found.
+                </div>
+            }
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(ViewBag.SearchTerm))
+    {
+        <div class="mt-4 text-center">
+            <a asp-action="Index" class="btn btn-secondary shadow-sm">
+                <i class="bi bi-arrow-left-circle me-2"></i>Return to All Users
+            </a>
+        </div>
+    }
+</div>

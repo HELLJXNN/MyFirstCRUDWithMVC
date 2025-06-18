@@ -16,3 +16,6 @@ INSERT INTO Users (UserName, UserDate, UserPassword) VALUES ('Antonella', '2022-
 INSERT INTO Users (UserName, UserDate, UserPassword) VALUES ('Billie', '2024-03-01', 'mySecretPwd');
 INSERT INTO Users (UserName, UserDate, UserPassword) VALUES ('DianaPrince', '2023-07-10', 'wonderWoman789');
 INSERT INTO Users (UserName, UserDate, UserPassword) VALUES ('EveAdams', '2022-09-05', 'hiddenGem');
+
+INSERT INTO Users (UserName, UserDate, UserPassword) VALUES ('Gloria', '2022-09-05', 'Glorita');
+INSERT INTO Users (UserName, UserDate, UserPassword) VALUES ('Marulda', '2022-09-09', 'Maru');

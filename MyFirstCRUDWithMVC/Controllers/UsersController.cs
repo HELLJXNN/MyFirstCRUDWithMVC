@@ -18,10 +18,17 @@ namespace MyFirstCRUDWithMVC.Controllers
             _context = context;
         }
 
-        // GET: Users
-        public async Task<IActionResult> Index()
+        // GET: Users and search users
+        public async Task<IActionResult> Index(string search)
         {
-            return View(await _context.Users.ToListAsync());
+            var users = from u in _context.Users select u; 
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                users = users.Where(s => s.UserName!.Contains(search));
+            }
+
+            return View(await users.ToListAsync()); 
         }
 
         // GET: Users/Details/5
