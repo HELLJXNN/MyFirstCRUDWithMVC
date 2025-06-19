@@ -1,11 +1,11 @@
 CREATE DATABASE MVCCRUD
 
-CREATE TABLE Users(
-    Id INT IDENTITY (1,1) PRIMARY KEY,
-    UserName VARCHAR(50),
-    UserDate DATE,
-    UserPassword VARCHAR(50)
-)
+-- CREATE TABLE Users(
+--     Id INT IDENTITY (1,1) PRIMARY KEY,
+--     UserName VARCHAR(50),
+--     UserDate DATE,
+--     UserPassword VARCHAR(50)
+-- )
 
 USE MVCCRUD
 SELECT * FROM Users

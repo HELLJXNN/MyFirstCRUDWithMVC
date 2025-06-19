@@ -14,7 +14,7 @@
 
         <form asp-controller="Users" asp-action="Index" method="get" class="d-flex">
             <div class="input-group">
-                <input type="text" name="search" class="form-control" placeholder="Search users..." value="@ViewBag.SearchTerm" />
+                <input type="text" name="searchString" class="form-control" placeholder="Search users..." value="@ViewData["CurrentSearch"]" />
                 <button type="submit" class="btn btn-outline-secondary">
                     <i class="bi bi-search"></i> Search
                 </button>
@@ -27,17 +27,41 @@
             <h5 class="mb-0">Registered Users</h5>
         </div>
         <div class="card-body p-0">
-            @if (Model.Any())
+            @if (Model != null && Model.Any())
             {
                 <div class="table-responsive">
                     <table class="table table-hover table-striped mb-0">
                         <thead class="bg-light">
                             <tr>
                                 <th scope="col">
-                                    @Html.DisplayNameFor(model => model.UserName)
+                                    <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-searchString="@ViewData["CurrentSearch"]">
+                                        @Html.DisplayNameFor(model => model.UserName)
+                                        @if (ViewData["NameSortParm"]?.ToString() == "Name")
+                                        {
+                                            <i class="bi bi-arrow-down"></i>
+                                            // Or bi-sort-alpha-down
+                                        }
+                                        else if (ViewData["NameSortParm"]?.ToString() == "name_desc")
+                                        {
+                                            <i class="bi bi-arrow-up"></i>
+                                            // Or bi-sort-alpha-up
+                                        }
+                                    </a>
                                 </th>
                                 <th scope="col">
-                                    @Html.DisplayNameFor(model => model.UserDate)
+                                    <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-searchString="@ViewData["CurrentSearch"]">
+                                        @Html.DisplayNameFor(model => model.UserDate)
+                                        @if (ViewData["DateSortParm"]?.ToString() == "Date")
+                                        {
+                                            <i class="bi bi-arrow-down"></i>
+                                            // Or bi-sort-numeric-down
+                                        }
+                                        else if (ViewData["DateSortParm"]?.ToString() == "date_desc")
+                                        {
+                                            <i class="bi bi-arrow-up"></i>
+                                            // Or bi-sort-numeric-up
+                                        }
+                                    </a>
                                 </th>
                                 <th scope="col">
                                     @Html.DisplayNameFor(model => model.UserPassword)
@@ -95,7 +119,8 @@
         </div>
     </div>
 
-    @if (!string.IsNullOrEmpty(ViewBag.SearchTerm))
+    @* Only show "Return to All Users" if a search term was applied *@
+    @if (!string.IsNullOrEmpty(ViewData["CurrentSearch"] as string))
     {
         <div class="mt-4 text-center">
             <a asp-action="Index" class="btn btn-secondary shadow-sm">

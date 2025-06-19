@@ -19,17 +19,43 @@ namespace MyFirstCRUDWithMVC.Controllers
         }
 
         // GET: Users and search users
-        public async Task<IActionResult> Index(string search)
+        public async Task<IActionResult> Index(string searchString, string sortOrder)
         {
-            var users = from u in _context.Users select u; 
+            // Store the current search string to display in the search box
+            ViewData["CurrentSearch"] = searchString;
 
-            if (!String.IsNullOrEmpty(search))
+            // Set up ViewData for sorting links (toggle logic)
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) || sortOrder == "Name" ? "name_desc" : "Name";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+            var users = from u in _context.Users select u;
+
+            if (!string.IsNullOrEmpty(searchString))
             {
-                users = users.Where(s => s.UserName!.Contains(search));
+                // Case-insensitive search for UserName
+                users = users.Where(s => s.UserName!.Contains(searchString, System.StringComparison.OrdinalIgnoreCase));
             }
 
-            return View(await users.ToListAsync()); 
+            // Apply sorting based on the sortOrder parameter
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    users = users.OrderByDescending(user => user.UserName);
+                    break;
+                case "Date":
+                    users = users.OrderBy(user => user.UserDate); // Ascending date
+                    break;
+                case "date_desc":
+                    users = users.OrderByDescending(user => user.UserDate); // Descending date
+                    break;
+                default:
+                    users = users.OrderBy(user => user.UserName); // Default sort: Ascending by Name
+                    break;
+            }
+
+            return View(await users.ToListAsync());
         }
+
 
         // GET: Users/Details/5
         public async Task<IActionResult> Details(int? id)
